@@ -26,11 +26,11 @@
                     <tbody>
                     @foreach($users as $user)
                         <tr>
-                        <th scope="row">1</th>
+                        <th scope="row">{{ $user->id}}</th>
                         <td>{{ $user->name}}</td>
                         <td>{{ $user->email}}</td>
                         <td> {{ implode(', ', $user->roles()->get()->pluck('name')->toArray()) }}</td>
-                        <td>
+                        <td><div style="width:125px">
                         @can('edit-users')
                         <a href="{{ route('admin.users.edit', $user->id) }}">
                         <button type="button" class="btn btn-primary float-left">Edit</button></a>
@@ -42,7 +42,7 @@
                         <button type="submit" class="btn btn-warning float-left">Delete</button>
                         </form>
                         @endcan
-                        </td>
+                        </div></td>
                         </tr>
                     @endforeach
                     </tbody>
