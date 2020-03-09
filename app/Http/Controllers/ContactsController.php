@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Contact;
+use App\Mail\NewContactQuery;
+
 class ContactsController extends Controller
 {
     /**
@@ -42,12 +44,15 @@ class ContactsController extends Controller
             'subject' => 'required',
             'message' => 'required|min:100|max:2000',
         ]);
+        
         $contact = new Contact;
         $contact->name = $request->name;
         $contact->email = $request->email;
         $contact->subject = $request->subject;
         $contact->message = $request->message;
         $contact->save();
+
+        Mail::to('udaydeveloper@gmail.com')->send(new NewContactQuery);
         return redirect()->back()->with('status', 'form submitted successfully');
     }
 
