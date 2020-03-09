@@ -24,7 +24,7 @@ Route::resource('photos', 'PhotoController');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-
+Route::resource('/contact','ContactsController', ['except'=>['create','show','edit','destroy','update']]);
 //Route::resource('/admin/users','Admin\UsersController', ['except'=>['show','store','create']]);
 
 route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:manage-users')->group(function(){
