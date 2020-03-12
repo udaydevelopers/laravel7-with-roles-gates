@@ -52,7 +52,12 @@ class ContactsController extends Controller
         $contact->message = $request->message;
         $contact->save();
 
-        Mail::to('udaydeveloper@gmail.com')->send(new NewContactQuery);
+        $data = array(
+            'name' => $request->name,
+            'subject' => $request->subject,
+            'message' => $request->message,
+        );
+        Mail::to('udaydeveloper@gmail.com')->send(new NewContactQuery($data));
         return redirect()->back()->with('status', 'form submitted successfully');
     }
 
