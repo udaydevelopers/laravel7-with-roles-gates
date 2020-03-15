@@ -31,5 +31,9 @@ route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:mana
     Route::resource('/users','UsersController', ['except'=>['show','store','create']]);
 });
 
+route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:manage-contacts')->group(function(){
+    Route::resource('/contacts','ContactsController', ['except'=>['show','store','create']]);
+});
+
 Route::get('/upload', 'PhotoController@upload_doc')->name('upload_doc');
 Route::post('/upload', 'PhotoController@upload_form')->name('upload');
