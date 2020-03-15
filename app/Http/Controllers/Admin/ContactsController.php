@@ -80,10 +80,10 @@ class ContactsController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required',
+            'name' => 'required|alpha',
             'email' => 'required',
-            'subject' => 'required',
-            'message' => 'required'
+            'subject' => 'required|different:na',
+            'message' => 'required|min:100'
         ]);
         $contact = Contact::find($id);
 
@@ -92,7 +92,7 @@ class ContactsController extends Controller
         $contact->subject = $request->subject;
         $contact->message = $request->message;
         $contact->save();
-        return redirect('admin/contacts')->with('success','Contacts Query updated successfully');
+        return redirect('admin/contacts')->with('status','Contacts Query updated successfully');
     }
 
     /**
@@ -105,6 +105,9 @@ class ContactsController extends Controller
     {
         if(Gate::denies('delete-contacts')){
             return redirect()->route('admin.contacts.index');
-            }
+        }
+        $contact = Contact::findOrFail($id);
+        $contact->delete();
+        return redirect('admin/contacts')->with('status','Contacts Query deleted successfully');
     }
 }
