@@ -4,15 +4,15 @@
         </div>
  <ul class="list-group">
   @can('manage-users')
-  <li class="list-group-item"><a href="{{ route('admin.users.index') }}">User Management</a></li>
+  <li class="list-group-item {{ (request()->is('admin/users*')) ? 'active' : '' }}"><a class="text-dark" href="{{ route('admin.users.index') }}">User Management</a></li>
   @endcan
   
-  <li class="list-group-item">Create Page</li>
-  <li class="list-group-item">Settings</li>
+  <li class="list-group-item"><a class="text-dark" href="#">Create Page</a></li>
+  <li class="list-group-item"><a class="text-dark" href="#">Settings</a></li>
   @can('manage-contacts')
-  <li class="list-group-item"><a href="{{ route('admin.contacts.index') }}">Contact Queries</a></li>
+  <li class="list-group-item {{ (request()->is('admin/contacts*')) ? 'active' : '' }}"><a class="text-dark" href="{{ route('admin.contacts.index') }}">Contact Queries</a></li>
   @endcan
-  <li class="list-group-item"><a  href="{{ route('logout') }}"
+  <li class="list-group-item"><a  class="text-dark" href="{{ route('logout') }}"
         onclick="event.preventDefault();
             document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}

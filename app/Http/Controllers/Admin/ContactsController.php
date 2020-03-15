@@ -18,7 +18,7 @@ class ContactsController extends Controller
      */
     public function index()
     {
-        $contacts = Contact::all();
+        $contacts = Contact::paginate(2);
         return view('admin.contacts.index')->with('contacts', $contacts);
     }
 
@@ -64,7 +64,10 @@ class ContactsController extends Controller
     {
         if(Gate::denies('edit-contacts')){
             return redirect()->route('admin.contacts.index');
-            }
+        }
+        return view('admin.contacts.edit')->with([
+            'contact' => $contact
+        ]);
     }
 
     /**
@@ -76,7 +79,20 @@ class ContactsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'subject' => 'required',
+            'message' => 'required'
+        ]);
+        $contact = Contact::find($id);
+
+        $contact->name = $request->name;
+        $contact->email = $request->email;
+        $contact->subject = $request->subject;
+        $contact->message = $request->message;
+        $contact->save();
+        return redirect('admin/contacts')->with('success','Contacts Query updated successfully');
     }
 
     /**
