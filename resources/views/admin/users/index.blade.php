@@ -1,13 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.admin')
+@section('title','Users List:: Admin')
 
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-    <div class="col-md-3">
-    <!-- Sidebar -->
-    @include('layouts.navbar')
-    </div>
-        <div class="col-md-9">
+
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">Users</div>
 
@@ -34,7 +32,7 @@
                         <td>{{ $user->name}}</td>
                         <td>{{ $user->email}}</td>
                         <td> {{ implode(', ', $user->roles()->get()->pluck('name')->toArray()) }}</td>
-                        <td><div style="width:125px">
+                        <td><div style="width: 100%;padding-left: 15px;padding-right: 15px;">
                         @can('edit-users')
                         <a href="{{ route('admin.users.edit', $user->id) }}">
                         <button type="button" class="btn btn-primary float-left">Edit</button></a>

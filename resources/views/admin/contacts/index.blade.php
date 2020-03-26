@@ -1,13 +1,11 @@
-@extends('layouts.app')
-
+@extends('layouts.admin')
+@section('title')
+Contact :: Admin
+@endsection
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-    <div class="col-md-3">
-    <!-- Sidebar -->
-    @include('layouts.navbar')
-    </div>
-        <div class="col-md-9">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">Contacts</div>
 
@@ -36,7 +34,7 @@
                         <td>{{ $contact->email }}</td>
                         <td> {{ $contact->subject }}</td>
                         <td> {{ $contact->message }}</td>
-                        <td><div style="width:125px">
+                        <td><div style="width: 100%;padding-left: 15px;padding-right: 15px;">
                         @can('edit-contacts')
                         <a href="{{ route('admin.contacts.edit', $contact->id) }}">
                         <button type="button" class="btn btn-primary float-left">Edit</button></a>
