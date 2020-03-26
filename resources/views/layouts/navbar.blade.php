@@ -6,8 +6,7 @@
   <div class="sidebar-brand-icon rotate-n-15">
     <i class="fas fa-laugh-wink"></i>
   </div>
-  <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
-</a>
+  <div class="sidebar-brand-text mx-3"> Admin <sup>1.0</sup></div></a>
 
 <!-- Divider -->
 <hr class="sidebar-divider my-0">
@@ -25,9 +24,9 @@
 <!-- Heading -->
 
 <!-- Nav Item - Pages Collapse Menu -->
-<li class="nav-item">
+<li class="nav-item {{ (request()->is('admin/users*')) ? 'active' : '' }}">
   <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-    <i class="fas fa-fw fa-cog"></i>
+    <i class="fas fa-fw fa-user"></i>
     <span>User Management</span>
   </a>
 
@@ -41,7 +40,7 @@
     </div>
   </div>
 </li>
-
+<hr class="sidebar-divider">
 
 @can('manage-contacts')
 <li class="nav-item {{ (request()->is('admin/contacts*')) ? 'active' : '' }}">
@@ -50,6 +49,7 @@
     <span>Contact Queries</span></a>
 </li>
 @endcan
+<hr class="sidebar-divider">
 <!-- Nav Item - Utilities Collapse Menu -->
 <li class="nav-item">
   <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
@@ -67,13 +67,13 @@
   </div>
 </li>
 
-
+<hr class="sidebar-divider">
 <!-- Nav Item - Tables -->
 <li class="nav-item">
   <a class="nav-link" href="{{ route('logout') }}"
         onclick="event.preventDefault();
             document.getElementById('logout-form').submit();">
-    <i class="fas fa-fw fa-logout"></i>
+    <i class="fas fa-fw fa-user"></i>
     <span>{{ __('Logout') }}</span></a>
     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
         @csrf

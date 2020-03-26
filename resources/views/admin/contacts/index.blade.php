@@ -3,10 +3,7 @@
 Contact :: Admin
 @endsection
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card">
+            <div class="card shadow mb-4">
                 <div class="card-header">Contacts</div>
 
                 <div class="card-body">
@@ -54,7 +51,5 @@ Contact :: Admin
                     {{ $contacts->links()}}
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+
 @endsection
