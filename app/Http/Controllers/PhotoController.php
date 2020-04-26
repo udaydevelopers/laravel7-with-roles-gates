@@ -80,7 +80,8 @@ class PhotoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $photo = Photo::find($id);
+        return view('photos.edit')->with('photo', $photo);
     }
 
     /**
@@ -92,7 +93,23 @@ class PhotoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $photo = Photo::FindOrFail($id);
+        $thumbnailPath = public_path().'/uploads/thumbnail/';
+        $originalPath = public_path().'/uploads/images/';
+        $filename = $photo->image_path;
+        File::delete($thumbnailPath.$filename);
+        File::delete($originalPath.$filename);
+
+        // update image code
+        $originalImage= $request->file('image');
+        $thumbnailImage = Image::make($originalImage);
+        $thumbnailImage->save($originalPath.time().$originalImage->getClientOriginalName());
+        $thumbnailImage->resize(150,150);
+        $thumbnailImage->save($thumbnailPath.time().$originalImage->getClientOriginalName()); 
+        $photo->name = time().$originalImage->getClientOriginalName();
+        $photo->image_path = time().$originalImage->getClientOriginalName();
+        $photo->save();
+        return redirect('photos')->with('status', 'Pic updated successfully');
     }
 
     /**

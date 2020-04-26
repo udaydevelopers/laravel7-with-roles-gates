@@ -40,7 +40,11 @@
                         <td>{{ $photo->name}}</td>
                         <td><img src="{{ $photo->image }}"></td>
                         <td >{{ $photo->created_at->format('d-m-Y')}}</td>
-                        <td style="float:left; width:160px"><button type="button" class="btn btn-primary">Edit</button>
+                        
+                        <td style="float:left; width:160px">
+                        <a href="{{ route('photos.edit', $photo->id) }}">
+                            <button type="button" class="btn btn-primary">Edit</button>
+                        </a>
                         <form action="{{ route('photos.destroy', $photo->id) }}" method="post">
                         @csrf
                         {{ method_field('DELETE')}}
