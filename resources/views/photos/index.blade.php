@@ -38,10 +38,14 @@
                         <tr>
                         <th scope="row">1</th>
                         <td>{{ $photo->name}}</td>
-                        <td><img src="{{ url($photo->image_path)}}"></td>
+                        <td><img src="{{ $photo->image }}"></td>
                         <td >{{ $photo->created_at->format('d-m-Y')}}</td>
                         <td style="float:left; width:160px"><button type="button" class="btn btn-primary">Edit</button>
-                        <button type="button" class="btn btn-warning">Delete</button></td>
+                        <form action="{{ route('photos.destroy', $photo->id) }}" method="post">
+                        @csrf
+                        {{ method_field('DELETE')}}
+                        <button type="submit" class="btn btn-warning">Delete</button></td>
+                        </form>
                         </tr>
                     @endforeach
                     </tbody>

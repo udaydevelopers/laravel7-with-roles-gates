@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Photo;
 use Carbon\Carbon;
+use Image;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
@@ -44,20 +45,20 @@ class PhotoController extends Controller
             'image' => 'required|image|mimes:jpeg,png,gif,jpg|max:2048'
         ]);
 
-        $cover = $request->file('image');
-        $extension = $cover->getClientOriginalExtension();
-        Storage::disk('public')->put($cover->getClientOriginalName(),  File::get($cover));
 
-        //$filename = $request->file('image')->getClientOriginalName();
-        //$imagePath = $image->storeAs("upload/pic", $filename);
-       // $path = $request->file('image')->storeAs('uploads/pic', $filename);
+        $originalImage= $request->file('image');
+        $thumbnailImage = Image::make($originalImage);
+        $thumbnailPath = public_path().'/uploads/thumbnail/';
+        $originalPath = public_path().'/uploads/images/';
+        $thumbnailImage->save($originalPath.time().$originalImage->getClientOriginalName());
+        $thumbnailImage->resize(150,150);
+        $thumbnailImage->save($thumbnailPath.time().$originalImage->getClientOriginalName()); 
 
-        //dd($request->all());
-        $photo = new Photo;
-        $photo->name = $cover->getClientOriginalName();
-        $photo->image_path = $cover->getClientOriginalName();
-        $photo->save();
-        return redirect('photos')->with('status', 'Pic uploaded successfully');;
+        $imagemodel= new Photo();
+        $imagemodel->name = time().$originalImage->getClientOriginalName();
+        $imagemodel->image_path = time().$originalImage->getClientOriginalName();
+        $imagemodel->save();
+        return redirect('photos')->with('status', 'Pic uploaded successfully');
     }
 
     /**
@@ -102,7 +103,14 @@ class PhotoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $photo = Photo::FindOrFail($id);
+        $thumbnailPath = public_path().'/uploads/thumbnail/';
+        $originalPath = public_path().'/uploads/images/';
+        $filename = $photo->image_path;
+        File::delete($thumbnailPath.$filename);
+        File::delete($originalPath.$filename);
+        $photo->delete();
+        return redirect('photos')->with('status', 'Pic deleted successfully');
     }
 
     public function upload_doc()
