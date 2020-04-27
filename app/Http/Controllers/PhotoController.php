@@ -104,7 +104,7 @@ class PhotoController extends Controller
         $originalImage= $request->file('image');
         $thumbnailImage = Image::make($originalImage);
         $thumbnailImage->save($originalPath.time().$originalImage->getClientOriginalName());
-        $thumbnailImage->resize(150,150);
+        $thumbnailImage->fit(150,150);
         $thumbnailImage->save($thumbnailPath.time().$originalImage->getClientOriginalName()); 
         $photo->name = time().$originalImage->getClientOriginalName();
         $photo->image_path = time().$originalImage->getClientOriginalName();
